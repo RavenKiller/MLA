@@ -1,0 +1,35 @@
+BASE_TASK_CONFIG_PATH: habitat_extensions/config/vlnce_task.yaml
+SIMULATOR_GPU_IDS: [4]
+TORCH_GPU_ID: 4
+NUM_ENVIRONMENTS: 4
+TENSORBOARD_DIR: data/tensorboard_dirs/cma_pm_da
+CHECKPOINT_FOLDER: data/checkpoints/cma_pm_da
+EVAL_CKPT_PATH_DIR: data/checkpoints/cma_pm_da
+RESULTS_DIR: data/checkpoints/cma_pm_da/evals
+
+EVAL:
+  USE_CKPT_CONFIG: False
+  SPLIT: val_unseen
+  EPISODE_COUNT: -1
+
+IL:
+  epochs: 4
+  batch_size: 8
+  load_from_ckpt: True
+  ckpt_to_load: data/checkpoints/cma_pm_da/ckpt.CMAPolicy.22.pth
+
+  DAGGER:
+    iterations: 4
+    update_size: 5000
+    p: 0.75
+    preload_lmdb_features: False
+    lmdb_features_dir: data/trajectories_dirs/cma_pm_da/trajectories.lmdb
+
+MODEL:
+  policy_name: CMAPolicy
+
+  INSTRUCTION_ENCODER:
+    bidirectional: True
+
+  PROGRESS_MONITOR:
+    use: True

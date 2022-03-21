@@ -1,0 +1,21 @@
+attrs>=19.1.0
+dtw==1.4.0
+fastdtw==0.3.4
+gdown
+gym>=0.17.3
+jsonlines
+lmdb
+msgpack_numpy
+networkx
+numpy>=1.16.1
+pre-commit
+tqdm>=4.0.0
+tb-nightly
+yacs>=0.1.5
+Opencv-python>=3.3.0
+git+https://github.com/openai/CLIP.git
+seaborn
+-f https://download.pytorch.org/whl/cu113/torch_stable.html
+torch==1.10.2+cu113
+-f https://download.pytorch.org/whl/cu113/torch_stable.html
+torchvision==0.11.3+cu113
