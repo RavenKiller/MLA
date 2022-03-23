@@ -6,7 +6,7 @@ NUM_ENVIRONMENTS: 4
 TENSORBOARD_DIR: data/tensorboard_dirs/mla_aug_da_tune
 CHECKPOINT_FOLDER: data/checkpoints/mla_aug_da_tune
 EVAL_CKPT_PATH_DIR: data/checkpoints/mla_aug_da_tune
-RESULTS_DIR: data/checkpoints/mla_aug_da_tune/evals 
+RESULTS_DIR: data/checkpoints/mla_aug_da_tune/evals
 
 EVAL:
   USE_CKPT_CONFIG: False

@@ -2,7 +2,6 @@ import clip
 import numpy as np
 import torch
 import torch.nn as nn
-
 from gym import Space, spaces
 from habitat.core.simulator import Observations
 from habitat_baselines.rl.ddppo.policy import resnet

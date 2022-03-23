@@ -6,13 +6,11 @@ import torch.nn.functional as F
 from gym import Space
 from habitat import Config
 from habitat_baselines.common.baseline_registry import baseline_registry
-
 from habitat_baselines.rl.ppo.policy import Net
 from torch import Tensor
 
 from vlnce_baselines.common.aux_losses import AuxLosses
 from vlnce_baselines.models.encoders import clip_encoders
-
 from vlnce_baselines.models.encoders.instruction_encoder import (
     InstructionEncoder,
 )
@@ -51,8 +49,7 @@ class MLAPolicy(ILPolicy):
 
 
 class MLANet(Net):
-    """Official implementation of the multi-level attention model.
-    """
+    """Official implementation of the multi-level attention model."""
 
     def __init__(
         self, observation_space: Space, model_config: Config, num_actions: int
@@ -470,6 +467,6 @@ class MLANet(Net):
                 self._peak_loss(sub_inst_score, mask_sub).float(),
                 self.peak_loss_lambda,
             )
-            
+
         self.step_cnt += 1
         return x, rnn_states_out
