@@ -1,6 +1,5 @@
 from typing import Dict, Tuple
 
-# import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -8,16 +7,12 @@ from gym import Space
 from habitat import Config
 from habitat_baselines.common.baseline_registry import baseline_registry
 
-# from habitat_baselines.rl.models.rnn_state_encoder import (
-#     build_rnn_state_encoder,
-# )
 from habitat_baselines.rl.ppo.policy import Net
 from torch import Tensor
 
 from vlnce_baselines.common.aux_losses import AuxLosses
 from vlnce_baselines.models.encoders import clip_encoders
 
-# from vlnce_baselines.models.encoders import resnet_encoders
 from vlnce_baselines.models.encoders.instruction_encoder import (
     InstructionEncoder,
 )
@@ -56,8 +51,7 @@ class MLAPolicy(ILPolicy):
 
 
 class MLANet(Net):
-    """An implementation of the cross-modal attention (CMA) network in
-    https://arxiv.org/abs/2004.02857
+    """Official implementation of the multi-level attention model.
     """
 
     def __init__(
@@ -104,7 +98,6 @@ class MLANet(Net):
         # Init vision projection layers
         dropout_ratio = model_config.MLA.feature_drop
         self.sub_inst_fc = nn.Sequential(
-            # nn.LayerNorm(model_config.CLIP.output_size),
             nn.Dropout(p=dropout_ratio),
             nn.Linear(
                 model_config.CLIP.output_size, model_config.CLIP.feature_size
@@ -112,7 +105,6 @@ class MLANet(Net):
             nn.ReLU(inplace=True),
         )
         self.rgb_fc = nn.Sequential(
-            # nn.LayerNorm(model_config.CLIP.vit_size),
             nn.Dropout(p=dropout_ratio),
             nn.Linear(
                 model_config.CLIP.vit_size, model_config.CLIP.feature_size
@@ -199,11 +191,6 @@ class MLANet(Net):
             + model_config.DEPTH_ENCODER.feature_size
         )
         self.visual_post = nn.Linear(self.f_i_size * 2, self.f_v_size)
-        # # Init vision-instruction fusion projection layer
-        # self.fusion_projection = nn.Sequential(
-        #     nn.Linear(self.f_i_size+self.v_size, self.f_v_size),
-        #     nn.ReLU()
-        # )
 
         # Init the action decoder RNN
         self.all_feature_size = (
@@ -230,7 +217,6 @@ class MLANet(Net):
         )
         self._output_size = model_config.STATE_ENCODER.hidden_size
 
-        # ??
         self._hidden_size = model_config.STATE_ENCODER.hidden_size
         self.register_buffer(
             "_scale", torch.tensor(1.0 / ((self._hidden_size // 2) ** 0.5))
@@ -247,7 +233,6 @@ class MLANet(Net):
             nn.init.constant_(self.progress_monitor.bias, 0)
 
         # Init the peak loss parameter
-        # if self.model_config.PEAK_ATTENTION.use:
         self.peak_loss_sigma = model_config.PEAK_ATTENTION.sigma
         self.peak_loss_lambda = model_config.PEAK_ATTENTION.alpha
         self.peak_loss_type = model_config.PEAK_ATTENTION.type
@@ -342,7 +327,6 @@ class MLANet(Net):
         masks: Tensor,
     ) -> Tuple[Tensor, Tensor]:
         # Embedding
-        # tic = time.time()
         instruction_embedding = self.instruction_encoder(
             observations
         )  # (N,D,L)
@@ -357,8 +341,6 @@ class MLANet(Net):
             observations
         )  # (N,D), (N,D,L)
 
-        # c1 = time.time()-tic
-        # tic = time.time()
         if "rgb_features" not in observations:
             self.rgb_features = rgb_embedding
             self.rgb_seq_features = rgb_embedding_seq
@@ -367,8 +349,6 @@ class MLANet(Net):
         prev_actions = self.prev_action_embedding(
             ((prev_actions.float() + 1) * masks).long().view(-1)
         )
-
-        # To speed up feature extraction
 
         # Ablation
         if self.model_config.ablate_instruction:
@@ -395,17 +375,12 @@ class MLANet(Net):
         depth_embedding_seq = depth_embedding.permute(0, 2, 1)  # (N,L,D)
         rgb_embedding_seq = rgb_embedding_seq.permute(0, 2, 1)  # (N,L,D)
 
-        # c2 = time.time()-tic
-        # tic = time.time()
-
         # Vision feature compress
         v = torch.cat([v_rgb, v_depth], dim=1)
         if self.model_config.SEQ2SEQ.encoder_prev_action:
             v_in = torch.cat([v, prev_actions], dim=1)
         else:
             v_in = v
-        # c3 = time.time()-tic
-        # tic = time.time()
 
         # Low and high level state encoders
         rnn_states_out = rnn_states.detach().clone()
@@ -419,8 +394,6 @@ class MLANet(Net):
             rnn_states[:, self.s1 : self.s2],
             masks,
         )
-        # c4 = time.time()-tic
-        # tic = time.time()
 
         # Vision to instruction attention
         # note that convert h_l and h_h [N,D] -> [N,1,D]
@@ -452,8 +425,6 @@ class MLANet(Net):
         sub_inst_score = sub_inst_score.squeeze(1)
         f_i = torch.cat([f_i_high.squeeze(1), f_i_low.squeeze(1)], dim=1)
         f_i = self.inst_post(f_i)
-        # c5 = time.time()-tic
-        # tic = time.time()
 
         # Instruction to vision attention
         f_v_rgb, _ = self.spatial_attention_rgb(
@@ -464,8 +435,6 @@ class MLANet(Net):
         )
         f_v = torch.cat([f_v_rgb.squeeze(1), f_v_depth.squeeze(1)], dim=1)
         f_v = self.visual_post(f_v)
-        # c6 = time.time()-tic
-        # tic = time.time()
 
         # Construct decoder input
         if self.model_config.SEQ2SEQ.decoder_prev_action:
@@ -473,8 +442,6 @@ class MLANet(Net):
         else:
             all_features = torch.cat([h_h, h_l, f_i, f_v], dim=1)
         x = self.final_input_compress(all_features)
-        # c7 = time.time()-tic
-        # tic = time.time()
 
         # Decoder
         (x, rnn_states_out[:, self.s2 :],) = self.action_decoder(
@@ -482,8 +449,6 @@ class MLANet(Net):
             rnn_states[:, self.s2 :],
             masks,
         )
-        # c8 = time.time()-tic
-        # tic = time.time()
 
         # AuxLosses
         if self.model_config.PROGRESS_MONITOR.use and AuxLosses.is_active():
@@ -505,18 +470,6 @@ class MLANet(Net):
                 self._peak_loss(sub_inst_score, mask_sub).float(),
                 self.peak_loss_lambda,
             )
-        # c9 = time.time()-tic
-        # tic = time.time()
-        # print("c1:%2.6f |c2:%2.6f |c3:%2.6f |c4:%2.6f |c5:%2.6f |c6:%2.6f |c7:%2.6f |c8:%2.6f |c9:%2.6f"%(c1,c2,c3,c4,c5,c6,c7,c8,c9))
-
-        # c1: all embedings
-        # c2: all features pre projection
-        # c3: vision feature compression
-        # c4: state encoders
-        # c5: V2I attention
-        # c6: I2V attention
-        # c7: feature compression
-        # c8: action decoder
-        # c9: aux loss
+            
         self.step_cnt += 1
         return x, rnn_states_out

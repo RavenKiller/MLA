@@ -3,8 +3,6 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-# import torch.nn.functional as F
-# import torchvision.models as models
 from gym import Space, spaces
 from habitat.core.simulator import Observations
 from habitat_baselines.rl.ddppo.policy import resnet
@@ -12,14 +10,6 @@ from habitat_baselines.rl.ddppo.policy.resnet_policy import ResNetEncoder
 from torch import Tensor
 
 from vlnce_baselines.common.utils import single_frame_box_shape
-
-# from torchvision.transforms import (
-#     CenterCrop,
-#     Compose,
-#     Normalize,
-#     Resize,
-#     ToTensor,
-# )
 
 
 class CLIPEncoder(nn.Module):
@@ -35,10 +25,6 @@ class CLIPEncoder(nn.Module):
         for param in self.model.parameters():
             param.requires_grad_(trainable)
         self.normalize_visual_inputs = True
-        # self._transform = Compose([
-        #                 ToTensor(),
-        #                 Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711)),
-        #             ])
         self.normalize_mu = torch.FloatTensor(
             [0.48145466, 0.4578275, 0.40821073]
         )
@@ -62,32 +48,15 @@ class CLIPEncoder(nn.Module):
         self.rgb_downsample = nn.Sequential(
             nn.AdaptiveAvgPool2d(downsample_size), nn.Flatten(start_dim=2)
         )
-        # !! convert to float32
-        # self.float()
 
     def _normalize(self, imgs: Tensor) -> Tensor:
-        """Normalizes a batch of images by:
-            1) scaling pixel values to be in the range 0-1
-            2) subtracting the ImageNet mean
-            3) dividing by the ImageNet variance
-            TODO: could be nice to calculate mean and variance for Habitat MP3D scenes.
-                Method: compute for training split with oracle path follower.
-        Args:
-            imgs: must have pixel values ranging from 0-255. Assumes a size of [Bx3xHxW]
-        https://github.com/pratogab/batch-transforms/blob/master/batch_transforms.py
-        """
-        # permute tensor to dimension [BATCH x CHANNEL x HEIGHT x WIDTH]
         if self.normalize_visual_inputs:
-            ## fast
             device = imgs.device
             if self.normalize_sigma.device != imgs.device:
                 self.normalize_sigma = self.normalize_sigma.to(device)
                 self.normalize_mu = self.normalize_mu.to(device)
             imgs = (imgs / 255.0 - self.normalize_mu) / self.normalize_sigma
             imgs = imgs.permute(0, 3, 1, 2)
-            ## slow
-            # imgs = imgs.cpu().numpy()
-            # imgs = torch.stack([self._transform(img) for img in imgs],dim=0).to(device)
             return imgs
         else:
             return imgs
