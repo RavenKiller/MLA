@@ -221,6 +221,10 @@ _C.MODEL.ablate_rgb = False
 _C.MODEL.ablate_instruction = False
 _C.MODEL.ablate_sub_instruction = False
 
+
+_C.MODEL.ablate_high_level = False
+_C.MODEL.ablate_low_level = False
+
 _C.MODEL.INSTRUCTION_ENCODER = CN()
 _C.MODEL.INSTRUCTION_ENCODER.sensor_uuid = "instruction"
 _C.MODEL.INSTRUCTION_ENCODER.vocab_size = 2504
