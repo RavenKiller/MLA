@@ -33,13 +33,15 @@ IL:
 MODEL:
   policy_name: MLAPolicy
 
+  ablate_high_level: True
+  ablate_low_level: True
   INSTRUCTION_ENCODER:
     bidirectional: True
   PROGRESS_MONITOR:
     use: True
     alpha: 1.0
   PEAK_ATTENTION:
-    use: True
+    use: False
     type: 1
     alpha: 0.4
     sigma: 0.6

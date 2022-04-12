@@ -422,7 +422,6 @@ class MLANet(Net):
         sub_inst_score = sub_inst_score.squeeze(1)
         if self.model_config.ablate_low_level:
             f_i_low.fill_(0)
-            avg = torch.mean(instruction_embedding, dim=1)
             f_i_low[:,0,:self.low_inst_size] = torch.mean(instruction_embedding, dim=1)
         if self.model_config.ablate_high_level:
             f_i_high.fill_(0)

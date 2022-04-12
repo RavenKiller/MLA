@@ -162,3 +162,5 @@ scripts/tmp
 *.csv
 
 predictions.json
+
+eval_*.sh
