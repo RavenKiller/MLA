@@ -71,8 +71,4 @@ The best model on validation sets is trained with EnvDrop augmentation and then 
 | Val Seen   | 9.07 | 6.04 | 0.52 | 0.42 | 0.39 |
 
 ## Checkpoints
-Coming soon...
-<!-- | Checkpoint | Link |
-| ---- | ---- |
-| Validation | Train base model |
-| Test | Train model with DAgger | -->
+\[[val](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\] \[[test]()\]
