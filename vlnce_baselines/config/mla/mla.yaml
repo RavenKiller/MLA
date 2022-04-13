@@ -27,7 +27,7 @@ IL:
     iterations: 1
     update_size: 10819
     p: 1.0
-    preload_lmdb_features: False
+    preload_lmdb_features: True
     lmdb_features_dir: data/trajectories_dirs/mla_nrsub/trajectories.lmdb
 
 MODEL:
@@ -37,16 +37,16 @@ MODEL:
     bidirectional: True
   PROGRESS_MONITOR:
     use: True
-    alpha: 1.0
+    alpha: 1.0 # means theta in paper
   PEAK_ATTENTION:
     use: True
-    type: 1
-    alpha: 0.4
+    type: 1 # can be 0,1,2,3, the order of ascending
+    alpha: 0.4 # means lambda in paper
     sigma: 0.6
     steps: 97371
     threshold: 0.6
   MLA:
-    feature_drop: 0.25
+    feature_drop: 0.25 # means FD in paper
   CLIP:
     rgb_level: -2
   SEQ2SEQ:

@@ -52,10 +52,11 @@ python run.py \
 Our config files is stored in `vlnce_baselines/config/mla`:
 | File | Meaning |
 | ---- | ---- |
-| `mla.yaml` | Train base model |
+| `mla.yaml` | Train model |
 | `mla_da.yaml` | Train model with DAgger |
 | `mla_aug.yaml` | Train model with EnvDrop augmentation |
 | `mla_da_aug_tune.yaml` | Fine-tune model with DAgger |
+| `mla_ablate.yaml` | Ablation study |
 | `eval_single.yaml` | Evaluate and visualize a single path |
 
 
@@ -63,14 +64,15 @@ Our config files is stored in `vlnce_baselines/config/mla`:
 
 ## Performance
 The best model on validation sets is trained with EnvDrop augmentation and then fine-tuned with DAgger. We use the same strategy to train the model submitted to the test [leaderboard](https://eval.ai/web/challenges/challenge-page/719/leaderboard/1966), but on all available data (train, val_seen and val_unseen).
-| Split      | TL   | NE   | OS   | SR   | SPL  |
+| Split      | TL   | NE   | OSR  | SR   | SPL  |
 |:----------:|:----:|:----:|:----:|:----:|:----:|
-| Test       | 8.85 | 7.91 | 0.36 | 0.28 | 0.25 |
-| Val Unseen | 8.27 | 7.60 | 0.36 | 0.29 | 0.27 |
-| Val Seen   | 9.06 | 7.21 | 0.44 | 0.34 | 0.32 |
+| Test       | 9.43 | 7.44 | 0.41 | 0.32 | 0.29 |
+| Val Unseen | 8.64 | 7.24 | 0.40 | 0.32 | 0.30 |
+| Val Seen   | 9.07 | 6.04 | 0.52 | 0.42 | 0.39 |
 
 ## Checkpoints
-| Checkpoint | Link |
+Coming soon...
+<!-- | Checkpoint | Link |
 | ---- | ---- |
 | Validation | Train base model |
-| Test | Train model with DAgger |
+| Test | Train model with DAgger | -->

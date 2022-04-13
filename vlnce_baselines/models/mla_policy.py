@@ -420,10 +420,11 @@ class MLANet(Net):
             attn_mask=mask_sub_,
         )
         sub_inst_score = sub_inst_score.squeeze(1)
-        if self.model_config.ablate_low_level:
+
+        # Ablation of MLA
+        if self.model_config.ablate_mla:
             f_i_low.fill_(0)
             f_i_low[:,0,:self.low_inst_size] = torch.mean(instruction_embedding, dim=1)
-        if self.model_config.ablate_high_level:
             f_i_high.fill_(0)
             f_i_high[:,0,:self.high_inst_size] = torch.mean(sub_instruction_embedding, dim=1)
 
