@@ -350,14 +350,19 @@ class MLANet(Net):
         # Ablation
         if self.model_config.ablate_instruction:
             instruction_embedding = instruction_embedding * 0
-        if self.model_config.ablate_sub_instruction:
-            sub_instruction_embedding = sub_instruction_embedding * 0
             # mask_sub = (sub_instruction_embedding==0).all(dim=2)
+        if self.model_config.ablate_depth:
+            sub_instruction_embedding = sub_instruction_embedding * 0
         if self.model_config.ablate_depth:
             depth_embedding = depth_embedding * 0
         if self.model_config.ablate_rgb:
             rgb_embedding = rgb_embedding * 0
             rgb_embedding_seq = rgb_embedding_seq * 0
+        
+        # Ablation of SSA, the same as ablating sub-instructions
+        if self.model_config.ablate_ssa:
+            # Absolutely mask sub-instructions
+            sub_instruction_embedding = sub_instruction_embedding * 0
 
         # Pre projection
         sub_instruction_embedding = self.sub_inst_fc(

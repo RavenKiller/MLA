@@ -1,5 +1,6 @@
-# Multi-Level Attention: Sub-Instruction Understanding in Continuous Vision and Language Navigation
-Official implrementations of *Multi-Level Attention: Sub-Instruction Understanding in Continuous Vision and Language Navigation* ([paper](https://arxiv.org/abs/2004.02857))
+# Multi-level Attention with Sub-instruction for Continuous Vision-and-Language Navigation
+Official implrementations of *Multi-level Attention with Sub-instruction for
+Continuous Vision-and-Language Navigation* ([paper]())
 
 This repository is based on [VLN-CE](https://github.com/jacobkrantz/VLN-CE).
 
@@ -37,7 +38,7 @@ pip install -r requirements.txt
     python download_mp.py --task habitat -o data/scene_datasets/mp3d/
     ```
    + Extract such that it has the form `data/scene_datasets/mp3d/{scene}/{scene}.glb`. There should be 90 scenes.
-6. Download preprocessed episodes [R2R_VLNCE_NRSub](https://github.com/RavenKiller/R2R_VLNCE_NRSub) from [here](https://drive.google.com/file/d/1rJn2cvhlQ7-GZ-gcUjJAjbyxfguiz2vv/view?usp=sharing). Extrach it into `data/datasets/`.
+6. Download preprocessed episodes [R2R_VLNCE_SSASub](https://github.com/RavenKiller/R2R_VLNCE_SSASub) from [here](https://drive.google.com/file/d/1rJn2cvhlQ7-GZ-gcUjJAjbyxfguiz2vv/view?usp=sharing). Extrach it into `data/datasets/`.
 7. Download the depth encoder `gibson-2plus-resnet50.pth` from [here](https://github.com/facebookresearch/habitat-lab/tree/master/habitat_baselines/rl/ddppo). Extract the contents to `data/ddppo-models/{model}.pth`.
 
 ## Train, evaluate and test
@@ -71,4 +72,4 @@ The best model on validation sets is trained with EnvDrop augmentation and then 
 | Val Seen   | 9.07 | 6.04 | 0.52 | 0.42 | 0.39 |
 
 ## Checkpoints
-\[[val](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\] \[[test]()\]
+\[[val]()\] \[[test](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\]
