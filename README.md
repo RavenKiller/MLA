@@ -1,5 +1,5 @@
-# Multi-level Attention with Sub-instruction for Continuous Vision-and-Language Navigation
-Official implrementations of *Multi-level Attention with Sub-instruction for
+# Multi-Level Attention with Sub-instruction for Continuous Vision-and-Language Navigation
+Official implrementations of *Multi-Level Attention with Sub-instruction for
 Continuous Vision-and-Language Navigation* ([paper]())
 
 This repository is based on [VLN-CE](https://github.com/jacobkrantz/VLN-CE).
