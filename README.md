@@ -1,8 +1,8 @@
 # Multi-Level Attention with Sub-instruction for Continuous Vision-and-Language Navigation
-Official implrementations of *Multi-Level Attention with Sub-instruction for
-Continuous Vision-and-Language Navigation* ([paper]())
+<!-- Official implrementations of *Multi-Level Attention with Sub-instruction for
+Continuous Vision-and-Language Navigation* ([paper]()) -->
+*This repository will be completed after being reviewed.*
 
-This repository is based on [VLN-CE](https://github.com/jacobkrantz/VLN-CE).
 
 ## Setup
 1. Use [anaconda](https://anaconda.org/) to create a Python 3.6 environment:
@@ -73,3 +73,6 @@ The best model on validation sets is trained with EnvDrop augmentation and then 
 
 ## Checkpoints
 \[[val]()\] \[[test](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\]
+
+## References
++ [VLN-CE](https://github.com/jacobkrantz/VLN-CE).
