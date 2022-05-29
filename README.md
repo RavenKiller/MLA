@@ -26,7 +26,7 @@ python setup.py develop --all
 ```
 4. Clone this repository and install python requirements:
 ```bash
-git clone git@github.com:jacobkrantz/VLN-CE.git
+git clone https://github.com/RavenKiller/MLA.git
 cd MLA
 pip install -r requirements.txt
 ```
