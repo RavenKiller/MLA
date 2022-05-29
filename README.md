@@ -72,7 +72,7 @@ The best model on validation sets is trained with EnvDrop augmentation and then 
 | Val Seen   | 9.07 | 6.04 | 0.52 | 0.42 | 0.39 |
 
 ## Checkpoints
-\[[val]()\] \[[test](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\]
+\[[val](https://www.jianguoyun.com/p/DSOE7KcQhY--CRjUtMMEIAA )\] \[[test](https://www.jianguoyun.com/p/DSYqcBcQhY--CRiAkbkEIAA)\]
 
 ## References
 + [VLN-CE](https://github.com/jacobkrantz/VLN-CE).
